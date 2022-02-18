@@ -12,12 +12,14 @@ namespace DumbRendererDemosaic
     [BepInPlugin("manlymarco.DumbRendererDemosaic", "Dumb Renderer Demosaic", Metadata.Version)]
     internal class DumbRendererDemosaic : BaseUnityPlugin
     {
+        public static readonly string[] MozaicNames = { "MankoMosa", "YSTちんほ (1)", "TNTN (1)" };
+
         private void Update()
         {
-            foreach (var renderer in FindObjectsOfType<Renderer>().Where(x => MozaicTools.IsMozaicName(x.material.name) || MozaicTools.IsMozaicName(x.material.shader?.name)))
+            foreach (var renderer in FindObjectsOfType<Renderer>().Where(x => MozaicNames.Any(name => x.name.Contains(name))))
             {
-                Logger.Log(LogLevel.Info, $"Removing mozaic material from renderer {renderer.transform.name}");
-                renderer.material = null;
+                Logger.Log(LogLevel.Info, $"Removing mozaic material from renderer {renderer.name}");
+                //renderer.material = null;
                 renderer.enabled = false;
                 renderer.gameObject.SetActive(false);
             }
